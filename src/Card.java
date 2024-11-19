@@ -48,7 +48,7 @@ public class Card {
     }
     //Method to Correspond Card's Value With its Full Name
     public String valueToName(int i){
-        String[] cardNames = {"Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", +
+        String[] cardNames = {"Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight",
                 "Nine", "Ten", "Jack", "Queen", "King"};
         return cardNames[i];
     }

@@ -13,8 +13,6 @@ public class Deck {
     public Deck(String[] ranks, String[] suits, int[] values) {
         //Create New ArrayList, Deep Copy Rather Than a Shallow Copy
         cards = new ArrayList<>();
-
-
         // Create Cards And Add To The Deck
         for (int i = 0; i < ranks.length; i++) {
             for (String suit : suits) {
@@ -51,7 +49,6 @@ public class Deck {
     public void shuffle() {
         // Reset cardsLeft to the total number of cards
         cardsLeft = cards.size();
-
         // Shuffle Cards According to Structure Given
         for (int i = cards.size() - 1; i > 0; i--) {
             int r = (int) (Math.random() * (i + 1)); // Generate a Random index Between 0 and i

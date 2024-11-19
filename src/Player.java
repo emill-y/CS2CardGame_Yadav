@@ -27,6 +27,9 @@ public class Player {
     public int getPoints() {
         return points;
     }
+    public void setPoints(int val) {
+        points += val;
+    }
     //Gets Name
     public String getName() {
         return name;

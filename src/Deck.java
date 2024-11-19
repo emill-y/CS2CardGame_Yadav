@@ -10,13 +10,10 @@ public class Deck {
     private int cardsLeft;
 
     //Constructor
-    public Deck() {
+    public Deck(String[] ranks, String[] suits, int[] values) {
         //Create New ArrayList, Deep Copy Rather Than a Shallow Copy
         cards = new ArrayList<>();
 
-        String[] ranks = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
-        String[] suits = {"Spades", "Hearts", "Clubs", "Diamonds"};
-        int[] values = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
 
         // Create Cards And Add To The Deck
         for (int i = 0; i < ranks.length; i++) {

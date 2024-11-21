@@ -2,6 +2,7 @@
 //CS2 Mr. Blick
 //November 18, 2024
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
@@ -61,12 +62,27 @@ public class Game {
         Scanner s = new Scanner(System.in);
         System.out.println("You have " + player.getPoints() + " points. How much would you like to bet?");
         bet = s.nextInt();
+        s.nextLine();
         player.addCard(deck.deal());
         player.addCard(deck.deal());
-        System.out.println(player.toString());
-        
+        player.printCards();
+        player.sumCards();
+        System.out.println("Would you like to hit (type 'hit') or stand (type 'stand')?");
+        String response = s.nextLine();
+        while (response.equals("hit")) {
+            player.addCard(deck.deal());
+            System.out.println("Here are your new cards:");
+            player.printCards();
+            player.sumCards();
+            System.out.println("Would you like to hit (type 'hit') or stand (type 'stand')?");
+            response = s.nextLine();
+        }
+
+
+
 
     }
+
 
     public static void main(String[] args) {
         System.out.println("Welcome to Blackjack!");
@@ -74,8 +90,10 @@ public class Game {
         System.out.println("What is your name?");
         String name = s.nextLine();
         System.out.println("Nice to Meet you, " + name + "! Let's learn how to play.");
-        printInstructions();
+        //printInstructions();
         Game game = new Game(name);
+        ArrayList<Card> hand = new ArrayList<Card>();
+        player = new Player(name, hand);
         playGame(game);
     }
 }

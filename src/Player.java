@@ -47,4 +47,34 @@ public class Player {
         return name + " has " + points + " points /n"  + name  + "'s cards: "
                 + hand;
     }
+    public void printCards() {
+        System.out.println("Here is your hand: " + hand);
+    }
+    public boolean hasAce(){
+        for (Card card : hand) {
+            if (card.getValue() == 1) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public void sumCards() {
+        int cardSum = 0;
+        for (Card card : hand) {
+            cardSum += card.getValue();
+        }
+        System.out.println("The sum of your cards is " + cardSum);
+        if (hasAce() && !isOver21(cardSum + 10)) {
+            System.out.println("Or, it could be " + cardSum + 10);
+        }
+    }
+
+    public boolean isOver21(int cardSum) {
+        if (cardSum > 21) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }

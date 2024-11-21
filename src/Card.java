@@ -32,7 +32,11 @@ public class Card {
     }
     //Getter Method for Value
     public int getValue() {
-        return value;
+        int points = value;
+        if (value > 11) {
+            points = 10;
+        }
+        return points;
     }
     //Setter Method for Rank
     public void setRank(String rank) {
@@ -55,7 +59,7 @@ public class Card {
     //To String Method
     @java.lang.Override
     public java.lang.String toString() {
-        String rankName  = valueToName(this.value);
+        String rankName  = valueToName(this.value - 1);
         return rankName + " of " + suit;
     }
 }

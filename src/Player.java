@@ -8,11 +8,13 @@ public class Player {
     private ArrayList<Card> hand;
     private int points;
     private String name;
+    private boolean isStanding;
     //Constructor
     public Player(String name, ArrayList<Card> hand) {
-        this.points = 0;
+        this.points = 100;
         this.hand = hand;
         this.name = name;
+        this.isStanding = false;
     }
     //Constructor
     public Player(String name) {
@@ -47,6 +49,12 @@ public class Player {
         return name + " has " + points + " points /n"  + name  + "'s cards: "
                 + hand;
     }
+    public void setIsStanding(boolean b){
+         this.isStanding = true;
+    }
+    public boolean getIsStanding(){
+        return isStanding;
+    }
     public void printCards() {
         System.out.println("Here is your hand: " + hand);
     }
@@ -58,15 +66,15 @@ public class Player {
         }
         return false;
     }
-    public void sumCards() {
+    public int sumCards() {
         int cardSum = 0;
         for (Card card : hand) {
             cardSum += card.getValue();
         }
-        System.out.println("The sum of your cards is " + cardSum);
         if (hasAce() && !isOver21(cardSum + 10)) {
-            System.out.println("Or, it could be " + cardSum + 10);
+            cardSum += 10;
         }
+        return cardSum;
     }
 
     public boolean isOver21(int cardSum) {

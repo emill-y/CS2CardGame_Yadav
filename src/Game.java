@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
+
 public class Game {
     //Declare Instance Variables
     private static Player player;
+    private static Player dealer;
     private static Deck deck;
 
     public Game(String name) {
@@ -57,44 +59,119 @@ public class Game {
     }
     public static void playGame(Game game) {
         //Code to play game here
-        player.setPoints(100);
+        bet();
+        while (askTurn()) {
+            askTurn();
+            dealerTurn();
+        }
+
+    }
+
+    public static int bet() {
         int bet = 0;
         Scanner s = new Scanner(System.in);
         System.out.println("You have " + player.getPoints() + " points. How much would you like to bet?");
         bet = s.nextInt();
         s.nextLine();
-        player.addCard(deck.deal());
-        player.addCard(deck.deal());
-        player.printCards();
-        player.sumCards();
-        System.out.println("Would you like to hit (type 'hit') or stand (type 'stand')?");
+        return bet;
+    }
+
+    public static boolean askTurn() {
+        Scanner s = new Scanner(System.in);
+        System.out.println("Would you like to hit or stand?");
         String response = s.nextLine();
-        while (response.equals("hit")) {
-            player.addCard(deck.deal());
-            System.out.println("Here are your new cards:");
-            player.printCards();
-            player.sumCards();
-            System.out.println("Would you like to hit (type 'hit') or stand (type 'stand')?");
-            response = s.nextLine();
+        if (response.equals("hit")) {
+            hitTurn(player);
+            return true;
         }
+        return false;
+    }
 
-
-
+    public static void dealerTurn() {
+        if (dealer.sumCards() > 17) {
+            hitTurn(dealer);
+        }
+        else {
+            standTurn(dealer, player);
+        }
 
     }
 
+    public static void hitTurn(Player name){
+        if(name.getHand().isEmpty()) {
+            name.addCard(deck.deal());
+        }
+        name.addCard(deck.deal());
+        System.out.println("Here are your new cards:");
+        name.printCards();
+        System.out.println("The Sum of your cards is :" + player.sumCards());
+    }
 
-    public static void main(String[] args) {
+    public static void standTurn(Player name, Player otherName){
+        name.setIsStanding(true);
+        if (otherName.getIsStanding()) {
+            System.out.println("You have a total of " + player.sumCards() + " and the dealer has a total of " + dealer.sumCards());
+            if(roundisWon()){
+                System.out.println("Because of that, you won the game! Your points have been added.");
+                player.addPoints(bet());
+                System.out.println(player.getPoints());
+                System.out.println(dealer.getPoints());
+
+            }
+            else {
+                System.out.println("Because of that, you LOST the game! Your points have been subtracted- and given to the dealer...");
+                player.addPoints(-bet());
+                dealer.addPoints(bet());
+                System.out.println(player.getPoints());
+                System.out.println(dealer.getPoints());
+
+
+            }
+        }
+        if (gameisOver()) {
+            System.out.println("Looks like you have gambled away all of your money... Better luck next time?");
+        }
+        else {
+            resetGame();
+        }
+
+    }
+
+    public static void resetGame() {
+        ArrayList<Card> hand = new ArrayList<Card>();
+    }
+
+    public static boolean gameisOver() {
+        if (player.getPoints() < 1) {
+            return true;
+        }
+        return false;
+    }
+    public static boolean roundisWon(){
+        int playerSum = player.sumCards();
+        int dealerSum = dealer.sumCards();
+        if (!player.isOver21(playerSum) && !dealer.isOver21(dealerSum) && playerSum > dealerSum ){
+            return true;
+        }
+        if (!player.isOver21(playerSum) && dealer.isOver21(dealerSum)) {
+            return true;
+        }
+        return false;
+    }
+    public static void welcomeUser() {
         System.out.println("Welcome to Blackjack!");
         Scanner s = new Scanner(System.in);
         System.out.println("What is your name?");
         String name = s.nextLine();
         System.out.println("Nice to Meet you, " + name + "! Let's learn how to play.");
-        //printInstructions();
         Game game = new Game(name);
         ArrayList<Card> hand = new ArrayList<Card>();
         player = new Player(name, hand);
+        printInstructions();
         playGame(game);
+    }
+    public static void main(String[] args) {
+        welcomeUser();
     }
 }
 

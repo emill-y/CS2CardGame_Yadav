@@ -102,7 +102,6 @@ public class Game {
             name.addCard(deck.deal());
         }
         name.addCard(deck.deal());
-        System.out.println("Here are your new cards:");
         name.printCards();
         System.out.println("The Sum of your cards is :" + player.sumCards());
     }

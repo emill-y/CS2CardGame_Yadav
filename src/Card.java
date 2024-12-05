@@ -33,7 +33,8 @@ public class Card {
     //Getter Method for Value
     public int getValue() {
         int points = value;
-        if (value > 11) {
+        //Sets the point-value of all face cards to ten
+        if (value > 10) {
             points = 10;
         }
         return points;

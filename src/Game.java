@@ -75,11 +75,14 @@ public class Game {
             waitSeconds(2);
             round++;
             //Tells user what round they are on
-            System.out.println("/n/nRound " + round + " of Blackjack.");
+            System.out.println("\n\nRound " + round + " of Blackjack.");
             //User can make their bets at the beginning of the round
             game.bet();
+            //initial turn for player and dealer
+            hitTurn(player);
+            dealerTurn();
             //While the user still wants to "hit", continue
-            do {
+            while(askTurn()){
                 //If the player is not standing, and does not exceed 21, continue to hit
                 if (!player.getIsStanding() && player.sumCards() < 21) {
                     hitTurn(player);
@@ -87,7 +90,7 @@ public class Game {
                     dealerTurn();
                 }
 
-            } while (askTurn());
+            }
             //Once the player no longer wishes to hit, they will stand
             standTurn(player,dealer);
             //Resets the players hand, and other game values to continue playing
@@ -106,7 +109,7 @@ public class Game {
     //Asks the user if they would prefer to hit or stand, returns true if they want to hit
     //Returns false if they want to stand or cannot hit as their cards value aldready exceeds 21
     public static boolean askTurn() {
-        if (player.sumCards() >= 21) {
+        if (player.sumCards() >= 21 || player.getIsStanding()) {
             return false;
         }
         Scanner s = new Scanner(System.in);
@@ -122,6 +125,7 @@ public class Game {
             //On their first turn, the dealer recieves 2 cards
             if(dealer.getHand().isEmpty()) {
                 dealer.addCard(deck.deal());
+                System.out.println("One of the dealers cards is: " + dealer.getHand().getFirst());
             }
             dealer.addCard(deck.deal());
         }
@@ -157,7 +161,7 @@ public class Game {
         //Save the player or dealers choice to stand
         name.setIsStanding(true);
         //If the other player is also standing, or the player has busted
-        if (otherName.getIsStanding() || player.sumCards() >= 21) {
+        if (otherName.getIsStanding() || (player.sumCards() >= 21 && dealer.getIsStanding())) {
             //Print out the sum of cards for the player and dealer
             System.out.println("You have a total of " + player.sumCards() + " and the dealer has a total of " + dealer.sumCards());
             //If the player won the round, display victory message and add bet.
